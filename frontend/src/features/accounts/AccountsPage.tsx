@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Account } from './types';
 
+import { AccountsList } from "./AccountsList";
+import { AccountsSummary } from "./AccountsSummary";
+
 export function AccountsPage() {
     const [accounts, setAccounts] = useState<Account[]>([]);
     const [loading, setLoading] = useState(true);
@@ -36,19 +39,10 @@ export function AccountsPage() {
 
     if (error) return <div>{error}</div>;
 
-    if (accounts.length === 0) return <div>No Accounts Found!</div>
-
     return (
         <div>
-            <h1>Accounts</h1>
-
-            {accounts.map(account => (
-                <div key={account.id}>
-                    <div>{account.name}</div>
-                    <div>{account.balance}</div>
-                    <div>{account.currency}</div>
-                </div>
-            ))}
+            <AccountsList accounts={accounts} />
+            <AccountsSummary accounts={accounts} />
         </div>
     );
 }

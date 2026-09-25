@@ -21,6 +21,12 @@ const accounts: Account[] = [
         name: 'António',
         balance: 10000,
         currency: 'USD'
+    },
+    {
+        id: 3,
+        name: "André",
+        balance: 500,
+        currency: "EUR"
     }
 ]
 
