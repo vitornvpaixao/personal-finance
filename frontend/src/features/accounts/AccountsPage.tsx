@@ -3,6 +3,7 @@ import type { Account } from './types';
 
 import { AccountsList } from "./AccountsList";
 import { AccountsSummary } from "./AccountsSummary";
+import { AccountsForm } from "./AccountsForm";
 
 export function AccountsPage() {
     const [accounts, setAccounts] = useState<Account[]>([]);
@@ -43,6 +44,7 @@ export function AccountsPage() {
         <div>
             <AccountsList accounts={accounts} />
             <AccountsSummary accounts={accounts} />
+            <AccountsForm />
         </div>
     );
 }
