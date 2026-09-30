@@ -61,6 +61,7 @@ export function AccountsPage() {
 
     return (
         <div>
+            <h1 className="text-3xl font-bold underline">hello</h1>
             <AccountsList accounts={accounts} />
             <AccountsSummary accounts={accounts} />
             <AccountsForm onCreated={refreshAccounts}/>

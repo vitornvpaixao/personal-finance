@@ -85,7 +85,8 @@ export function AccountsForm({ onCreated }: AccountsFormProps) {
                 <input 
                     id="name" 
                     type="text" 
-                    value={form.name} 
+                    value={form.name}
+                    className="border border-gray-300 rounded-md px-2 py-1 mb-2 ml-2"
                     onChange={(event) => {
                         setForm((prev) => ({
                             ...prev,
@@ -101,7 +102,8 @@ export function AccountsForm({ onCreated }: AccountsFormProps) {
                     id="balance" 
                     type="number"
                     step="0.01"
-                    value={form.balance} 
+                    value={form.balance}
+                    className="border border-gray-300 rounded-md px-2 py-1 mb-2 ml-2"
                     onChange={(event) => {
                         setForm((prev) => ({
                             ...prev,
@@ -117,6 +119,7 @@ export function AccountsForm({ onCreated }: AccountsFormProps) {
                     id="currency" 
                     type="text" 
                     value={form.currency}
+                    className="border border-gray-300 rounded-md px-2 py-1 mb-2 ml-2"
                     onChange={(event) => {
                         setForm((prev) => ({
                             ...prev,
@@ -129,6 +132,7 @@ export function AccountsForm({ onCreated }: AccountsFormProps) {
             <button 
                 type="submit" 
                 disabled={isSubmitting}
+                className="rounded-xl bg-blue-500 text-white px-2 py-0.5 mx-2 cursor-pointer"
             >
                 {isSubmitting ? (
                     <>
@@ -140,6 +144,7 @@ export function AccountsForm({ onCreated }: AccountsFormProps) {
             <button 
                 type="button" 
                 onClick={handleClearForm}
+                className="rounded-xl bg-blue-500 text-white px-2 py-0.5 mx-2 cursor-pointer"
             >
                 Clear Form
             </button>
