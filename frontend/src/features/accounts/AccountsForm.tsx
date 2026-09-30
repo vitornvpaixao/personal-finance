@@ -1,16 +1,23 @@
 import { useState } from "react";
 
-export function AccountsForm() {
+interface AccountsFormProps {
+    onCreated: () => void;
+}
+
+export function AccountsForm({ onCreated }: AccountsFormProps) {
     const [form, setForm ] = useState({
         name: "",
         balance: "",
         currency: "EUR"
     });
     const [error, setError] = useState<string | null>(null)
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
-    function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+    async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
-        
+
+        if (isSubmitting) return;
+
         if (form.name.trim() === "") {
             setError('Name cannot be empty!'); 
             return;
@@ -29,13 +36,34 @@ export function AccountsForm() {
         }
         
         const accountData = {
-            name: form.name,
+            name: form.name.trim(),
             balance,
-            currency: form.currency
+            currency: form.currency.trim()
         }
 
-        setError(null);
-        console.log(accountData);
+        setIsSubmitting(true);
+
+        try {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(accountData)
+            };
+            
+            const res = await fetch('/api/accounts', requestOptions);
+            
+            if (!res.ok) {
+                throw new Error('Error creating account!');
+            }
+
+            handleClearForm();
+            onCreated();
+            
+        } catch(err) {
+            setError(err instanceof Error ? err.message : 'Something went wrong!');
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     function handleClearForm() {
@@ -98,8 +126,23 @@ export function AccountsForm() {
                 />
             </div>
 
-            <button type="submit">Create Account</button>
-            <button type="button" onClick={handleClearForm}>Clear Form</button>
+            <button 
+                type="submit" 
+                disabled={isSubmitting}
+            >
+                {isSubmitting ? (
+                    <>
+                        <span style={{backgroundColor: 'gray'}}>Creating...</span>
+                    </>
+                ) : "Create Account"}
+            </button>
+            
+            <button 
+                type="button" 
+                onClick={handleClearForm}
+            >
+                Clear Form
+            </button>
             
             {error && <div role="alert" style={{color: "red"}}>{error}</div>}
         </form>

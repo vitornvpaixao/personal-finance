@@ -5,46 +5,66 @@ import { AccountsList } from "./AccountsList";
 import { AccountsSummary } from "./AccountsSummary";
 import { AccountsForm } from "./AccountsForm";
 
+async function getAccounts(): Promise<Account[]> {
+    const res = await fetch('/api/accounts');
+
+    if (!res.ok) {
+        throw new Error('Error fetching accounts!');
+    }
+
+    return res.json();
+}
+
 export function AccountsPage() {
     const [accounts, setAccounts] = useState<Account[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [initialError, setInitialError] = useState<string | null>(null);
+    const [refreshError, setRefreshError] = useState<string | null>(null);
     
+    async function refreshAccounts() {
+        try {
+            const data = await getAccounts();
+
+            setAccounts(data);
+            setRefreshError(null);
+        } catch {
+            setRefreshError("Account created, but the list could not be refreshed.");
+        }
+    }
+
     useEffect(() => {
-        async function fetchAccounts() {
-            try {
-                const res = await fetch('/api/accounts');
-                
-                if (!res.ok) {
-                    throw new Error('Something went wrong - BE error!');
-                }
-    
-                const data: Account[] = await res.json();
-                setAccounts(data);
-                
-            } catch(err) {
-                if (err instanceof Error) {
-                    setError(err.message);
-                } else {
-                    setError('Something went wrong!');
-                }
-            } finally {
+        let cancelled = false;
+        
+        getAccounts().then((data) => {
+            if (cancelled) return;
+
+            setAccounts(data);
+            setInitialError(null);
+        }).catch((err) => {
+            if (!cancelled) {
+                setInitialError(err instanceof Error ? err.message : "Something went wrong!");
+            }
+        }).finally(() => {
+            if (!cancelled) {
                 setLoading(false);
             }
-        }
+        });
 
-        fetchAccounts();
+        return () => {
+            cancelled = true;
+        }
     }, []);
 
     if (loading) return <div>Loading...</div>;
 
-    if (error) return <div>{error}</div>;
+    if (initialError) return <div>{initialError}</div>;
 
     return (
         <div>
             <AccountsList accounts={accounts} />
             <AccountsSummary accounts={accounts} />
-            <AccountsForm />
+            <AccountsForm onCreated={refreshAccounts}/>
+            {refreshError && (<div role="alert">{refreshError}</div>)}
         </div>
     );
 }
