@@ -86,7 +86,7 @@ export function AccountsForm({ onCreated }: AccountsFormProps) {
                     id="name" 
                     type="text" 
                     value={form.name}
-                    className="border border-gray-300 rounded-md px-2 py-1 mb-2 ml-2"
+                    className="border border-gray-400 rounded-md px-2 py-1 mb-2 ml-2"
                     onChange={(event) => {
                         setForm((prev) => ({
                             ...prev,
@@ -103,7 +103,7 @@ export function AccountsForm({ onCreated }: AccountsFormProps) {
                     type="number"
                     step="0.01"
                     value={form.balance}
-                    className="border border-gray-300 rounded-md px-2 py-1 mb-2 ml-2"
+                    className="border border-gray-400 rounded-md px-2 py-1 mb-2 ml-2"
                     onChange={(event) => {
                         setForm((prev) => ({
                             ...prev,
@@ -119,7 +119,7 @@ export function AccountsForm({ onCreated }: AccountsFormProps) {
                     id="currency" 
                     type="text" 
                     value={form.currency}
-                    className="border border-gray-300 rounded-md px-2 py-1 mb-2 ml-2"
+                    className="border border-gray-400 rounded-md px-2 py-1 mb-2 ml-2"
                     onChange={(event) => {
                         setForm((prev) => ({
                             ...prev,
