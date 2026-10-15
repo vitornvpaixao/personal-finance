@@ -8,7 +8,7 @@ interface AccountsSummaryProps {
 
 export function AccountsSummary({ accounts }: AccountsSummaryProps) {
     const accountsSummary = buildAccountsSummary(accounts);
-    
+    console.log(accountsSummary)
     return (
         <div>
             <h2>Summary</h2>

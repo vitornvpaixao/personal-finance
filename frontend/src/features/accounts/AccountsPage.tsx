@@ -24,7 +24,6 @@ export function AccountsPage() {
     async function refreshAccounts() {
         try {
             const data = await getAccounts();
-
             setAccounts(data);
             setRefreshError(null);
         } catch {
@@ -37,7 +36,7 @@ export function AccountsPage() {
         
         getAccounts().then((data) => {
             if (cancelled) return;
-
+            console.log(data)
             setAccounts(data);
             setInitialError(null);
         }).catch((err) => {
