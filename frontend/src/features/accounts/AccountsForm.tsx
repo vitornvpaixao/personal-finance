@@ -53,7 +53,7 @@ export function AccountsForm({ onCreated }: AccountsFormProps) {
             const res = await fetch('/api/accounts', requestOptions);
             
             if (!res.ok) {
-                throw new Error('Error creating account!');
+                throw new Error('Error creating account! Please try again!');
             }
 
             handleClearForm();

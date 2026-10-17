@@ -1,23 +1,19 @@
 import express  from 'express';
 import { createAccount, getAccounts } from "./accountsRepository.js";
+import type { Account, CreateAccountInput } from './types.js';
 
 export const accountsRouter = express.Router();
 
-type Account = {
-    name: string;
-    balance: number;
-    currency: string;
-}
 
 accountsRouter.get('/', async (req, res) => {
     // Get all accounts from DB
-    const result = await getAccounts();
+    const result: Account[] = await getAccounts();
     
     res.json(result);
 });
 
 accountsRouter.post('/', async (req, res) => {
-    const { name, balance, currency} = req.body ?? {};
+    const { name, balance, currency } = req.body ?? {};
     
     if (
         typeof name !== "string" ||
@@ -31,13 +27,13 @@ accountsRouter.post('/', async (req, res) => {
         return;
     }
     
-    const accountData: Account = {
+    const accountData: CreateAccountInput = {
         name: name.trim(),
         balance,
         currency: currency.trim()
     }
     
-    const newAccount = await createAccount(accountData);
+    const newAccount: Account = await createAccount(accountData);
     
     res.status(201).json(newAccount);
 })

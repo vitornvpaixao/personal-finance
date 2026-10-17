@@ -51,8 +51,7 @@ export async function query(
 }
 
 export async function testDatabaseConnection() {
-    const result = await pool.query("SELECT * FROM accounts;");
+    const result = await pool.query("SELECT 1");
 
     console.log("Database connected:", result.rows);
 }
-
